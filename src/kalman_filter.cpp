@@ -1,7 +1,10 @@
 #include "kalman_filter.h"
 
+#include <iostream>
 using Eigen::MatrixXd;
 using Eigen::VectorXd;
+using std::cout;
+using std::endl;
 
 /*
  * Please note that the Eigen library does not initialize
@@ -55,6 +58,7 @@ void KalmanFilter::UpdateEKF(const VectorXd &z, MatrixXd &Hj) {
   float py = x_(1);
   float vx = x_(2);
   float vy = x_(3);
+  cout << "x_ = " << px << " , " << py << " , " << vx << " , " << vy << endl;
   // map the predicted location x′ from Cartesian coordinates to polar
   // coordinates
   float rho = sqrt(px * px + py * py);

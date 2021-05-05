@@ -155,7 +155,7 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
     // TODO: Laser updates
     cout << "Update: start" << endl;
     ekf_.Update(measurement_pack.raw_measurements_);
-    cout << "UpdateEKF: done" << endl;
+    cout << "Update: done" << endl;
   }
 
   // print the output
