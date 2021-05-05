@@ -149,7 +149,7 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
     // TODO: Radar updates
     Hj_ = tools.CalculateJacobian(ekf_.x_);
     cout << "UpdateEKF: start" << endl;
-    ekf_.UpdateEKF(measurement_pack.raw_measurements_, Hj_);
+    ekf_.UpdateEKF(measurement_pack.raw_measurements_, Hj_, R_radar_);
     cout << "UpdateEKF: done" << endl;
   } else {
     // TODO: Laser updates
