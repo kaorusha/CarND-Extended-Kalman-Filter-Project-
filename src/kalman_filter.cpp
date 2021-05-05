@@ -66,16 +66,21 @@ void KalmanFilter::UpdateEKF(const VectorXd &z, MatrixXd &Hj) {
   float rho_dot = (px * vx + py * vy) / rho;
   VectorXd hx = VectorXd(3);
   hx << rho, phi, rho_dot;
+  cout << "hx = " << hx << endl;
   VectorXd y = z - hx;
   // normalize phi to [-pi,pi)
   y(1) = fmod(fmod(y(1) + M_PI, 2 * M_PI) + 2 * M_PI, 2 * M_PI) - M_PI;
+  cout << "y = " << y << endl;
   MatrixXd Hjt = Hj.transpose();
+  cout << "Hj = " << Hj << endl;
   MatrixXd S = Hj * P_ * Hjt + R_;
+  cout << "hx = " << hx << endl;
   MatrixXd K = P_ * Hjt * S.inverse();
-
+  cout << "K = " << K << endl;
   // new estimate
   x_ = x_ + (K * y);
   long x_size = x_.size();
   MatrixXd I = MatrixXd::Identity(x_size, x_size);
   P_ = (I - K * Hj) * P_;
+  cout << "P_ = " << P_ << endl;
 }
