@@ -1,10 +1,7 @@
 #include "kalman_filter.h"
 
-#include <iostream>
 using Eigen::MatrixXd;
 using Eigen::VectorXd;
-using std::cout;
-using std::endl;
 
 /*
  * Please note that the Eigen library does not initialize
@@ -50,7 +47,8 @@ void KalmanFilter::Update(const VectorXd &z) {
   P_ = (I - K * H_) * P_;
 }
 
-void KalmanFilter::UpdateEKF(const VectorXd &z, MatrixXd &Hj, MatrixXd &R) {
+void KalmanFilter::UpdateEKF(const VectorXd &z, const MatrixXd &Hj,
+                             const MatrixXd &R) {
   /**
    * TODO: update the state by using Extended Kalman Filter equations
    */
@@ -58,7 +56,6 @@ void KalmanFilter::UpdateEKF(const VectorXd &z, MatrixXd &Hj, MatrixXd &R) {
   float py = x_(1);
   float vx = x_(2);
   float vy = x_(3);
-  cout << "x_ = " << px << " , " << py << " , " << vx << " , " << vy << endl;
   // map the predicted location x′ from Cartesian coordinates to polar
   // coordinates
   float rho = sqrt(px * px + py * py);
@@ -66,22 +63,15 @@ void KalmanFilter::UpdateEKF(const VectorXd &z, MatrixXd &Hj, MatrixXd &R) {
   float rho_dot = (px * vx + py * vy) / rho;
   VectorXd hx = VectorXd(3);
   hx << rho, phi, rho_dot;
-  cout << "hx = " << hx << endl;
   VectorXd y = z - hx;
   // normalize phi to [-pi,pi)
   y(1) = fmod(fmod(y(1) + M_PI, 2 * M_PI) + 2 * M_PI, 2 * M_PI) - M_PI;
-  cout << "y = " << y << endl;
   MatrixXd Hjt = Hj.transpose();
-  cout << "Hj = " << Hj << endl;
-  cout << "P_ = " << P_ << endl;
   MatrixXd S = Hj * P_ * Hjt + R;
-  cout << "S = " << S << endl;
   MatrixXd K = P_ * Hjt * S.inverse();
-  cout << "K = " << K << endl;
   // new estimate
   x_ = x_ + (K * y);
   long x_size = x_.size();
   MatrixXd I = MatrixXd::Identity(x_size, x_size);
   P_ = (I - K * Hj) * P_;
-  cout << "P_ = " << P_ << endl;
 }
