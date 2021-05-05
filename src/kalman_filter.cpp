@@ -74,7 +74,7 @@ void KalmanFilter::UpdateEKF(const VectorXd &z, MatrixXd &Hj, MatrixXd &R) {
   MatrixXd Hjt = Hj.transpose();
   cout << "Hj = " << Hj << endl;
   cout << "P_ = " << P_ << endl;
-  MatrixXd S = Hj * P_ * Hjt + R_;
+  MatrixXd S = Hj * P_ * Hjt + R;
   cout << "S = " << S << endl;
   MatrixXd K = P_ * Hjt * S.inverse();
   cout << "K = " << K << endl;
