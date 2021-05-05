@@ -51,9 +51,6 @@ FusionEKF::FusionEKF() {
   // measurement matrix
   H_laser_ << 1, 0, 0, 0,
               0, 1, 0, 0;
-  //process noise
-  float noise_ax = 9; 
-  float noise_ay = 9;
   // the initial transition matrix F
   MatrixXd F = MatrixXd(4, 4);
   F << 1, 0, 1, 0,
